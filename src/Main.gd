@@ -47,6 +47,7 @@ func _on_Player_hit():
 func game_over():
 	$ScoreTimer.stop()
 	$MobTimer.stop()
+	get_tree().call_group("mobs", "queue_free")
 	$HUD.show_game_over()
 
 func _on_HUD_start_game():
