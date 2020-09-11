@@ -14,7 +14,16 @@ _data = {
 script = ExtResource( 1 )
 Mob = ExtResource( 2 )
 
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 480.0
+margin_bottom = 720.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Player" parent="." instance=ExtResource( 3 )]
+visible = false
 
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
