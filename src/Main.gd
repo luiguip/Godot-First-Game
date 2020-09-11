@@ -7,31 +7,24 @@ func _ready():
 	randomize()
 
 func _on_MobTimer_timeout():
-	var mob = Mob.instance()
-	var direction = set_direction()
-	set_mob_attributes(mob, direction)
-
-func set_mob_attributes(mob, direction):
-	add_child(mob)
-	set_mob_random_spawn_location(mob)
-	set_mob_direction(mob, direction)
-	set_mob_velocity(mob, direction)
-
-func set_mob_random_spawn_location(mob):
 	$MobPath/MobSpawnLocation.offset = randi()
-	mob.position = $MobPath/MobSpawnLocation.position
+	set_mob()
 
-func set_direction():
+func set_mob():
+	var mob = Mob.instance()
+	add_child(mob)
+	mob.position = $MobPath/MobSpawnLocation.position
+	mob.rotation = set_mob_direction()
+	mob.linear_velocity = set_mob_velocity(mob.min_speed, mob.max_speed, mob.rotation)
+
+func set_mob_direction():
 	var direction = $MobPath/MobSpawnLocation.rotation + PI / 2
 	direction += rand_range(-PI / 4, PI / 4)
 	return direction
 
-func set_mob_direction(mob, direction):
-	mob.rotation = direction
-
-func set_mob_velocity(mob, direction):
-	mob.linear_velocity = Vector2(rand_range(mob.min_speed, mob.max_speed), 0)
-	mob.linear_velocity = mob.linear_velocity.rotated(direction)
+func set_mob_velocity(min_speed, max_speed, rotation):
+	var linear_velocity = Vector2(rand_range(min_speed, max_speed), 0)
+	return linear_velocity.rotated(rotation)
 
 func _on_ScoreTimer_timeout():
 	score += 1
